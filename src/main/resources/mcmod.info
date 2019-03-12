@@ -1,0 +1,16 @@
+[
+{
+  "modid": "chesticles",
+  "name": "Chesticles",
+  "description": "Illegal chests",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Cloudhunter"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
