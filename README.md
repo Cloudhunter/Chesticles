@@ -1,2 +1,2 @@
 # Chesticles
-I guess that's the name people are wanting...
+Adds a variety of illegal chests to the game. Currently only Fat Boys and Tall Boys, but more to come!
