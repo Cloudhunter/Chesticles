@@ -1,5 +1,6 @@
 package uk.co.cloudhunter.chesticles.tile;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -7,6 +8,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityLockableLoot;
@@ -23,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class TileEntityChesticle extends TileEntityLockableLoot implements ITickable {
     boolean isDoubleChest = false;
-    public boolean isPrimaryChest = true;
+    public boolean isPrimaryChest = false;
 
     private RenderType type = RenderType.UPSIDE_DOWN; // default so a broken TE works
 
@@ -233,6 +235,11 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
     }
 
     @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        handleUpdateTag(pkt.getNbtCompound());
+    }
+
+    @Override
     public NBTTagCompound getUpdateTag() {
         return writeToNBTShared(super.getUpdateTag());
     }
@@ -255,9 +262,9 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
 
     public void readFromNBTShared(NBTTagCompound compound)
     {
-        isPrimaryChest = compound.getBoolean("primary");
+        boolean primaryChest = compound.getBoolean("primary");
         isDoubleChest = compound.getBoolean("double");
-        if (!isPrimaryChest)
+        if (!primaryChest)
         {
             int primX = compound.getInteger("primX");
             int primY = compound.getInteger("primY");
@@ -280,6 +287,7 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
 
             type = RenderType.values()[compound.getByte("render")];
         }
+        isPrimaryChest = primaryChest;
     }
 
     @Override
@@ -374,11 +382,11 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
             }
         }
 
+        String tempCustomName = customName;
+
         isDoubleChest = false;
         secondaryChest = null;
         isPrimaryChest = true;
-
-        String tempCustomName = customName;
 
         getWorld().setBlockState(pos, Blocks.CHEST.getDefaultState().withProperty(Blocks.CHEST.FACING, getWorld().getBlockState(pos).getValue(BlockChesticle.FACING)));
 
@@ -389,6 +397,7 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
             TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
             chest.setCustomName(tempCustomName);
         }
+
     }
 
     private void PrimaryInvalidated(TileEntityChesticle primary) {
@@ -463,17 +472,17 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
     }
 
     public void setPrimary(TileEntityChesticle secondaryChestIn) {
-        isPrimaryChest = true;
-        isDoubleChest = true;
         chestContents = NonNullList.withSize(54, ItemStack.EMPTY);
         secondaryChest = secondaryChestIn;
         secondaryChestIn.setSecondary(this);
+        isPrimaryChest = true;
+        isDoubleChest = true;
     }
 
     private void setSecondary(TileEntityChesticle primaryChestIn) {
+        primaryChest = primaryChestIn;
         isPrimaryChest = false;
         isDoubleChest = true;
-        primaryChest = primaryChestIn;
     }
 
     public enum RenderType {

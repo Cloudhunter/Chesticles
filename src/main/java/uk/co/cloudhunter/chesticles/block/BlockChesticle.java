@@ -87,6 +87,9 @@ public class BlockChesticle extends Block {
         TileEntityChesticle chest = (TileEntityChesticle) te;
         EnumFacing facing = state.getValue(FACING);
 
+        if(!chest.isPrimaryChest && chest.getPrimaryChest() == null)
+            return super.getBoundingBox(state, source, pos);
+
         if (chest.getType() == TileEntityChesticle.RenderType.UP)
         {
             return super.getBoundingBox(state, source, pos); // TODO: proper up
@@ -127,6 +130,8 @@ public class BlockChesticle extends Block {
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
+        if (worldIn.isRemote)
+            return;
         EnumFacing horizontalFacing = state.getValue(FACING);
         for (EnumFacing side: EnumFacing.values())
         {
@@ -138,7 +143,7 @@ public class BlockChesticle extends Block {
                 if (otherFacing == horizontalFacing)
                 {
                     TileEntityChest te = (TileEntityChest) worldIn.getTileEntity(sidePos);
-                    if (te.doubleChestHandler == null || te.doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
+                    if (te.adjacentChestXNeg == null && te.adjacentChestXPos == null && te.adjacentChestZNeg == null && te.adjacentChestZPos == null)
                     {
                         if (!(horizontalFacing.rotateY() == side || horizontalFacing.rotateYCCW() == side))
                         {
@@ -167,11 +172,14 @@ public class BlockChesticle extends Block {
                             // back or top will be primary, so new chest is going to be primary
 
                             primaryChest.setPrimary(secondaryChest);
-                            primaryChest.setType(side == EnumFacing.DOWN ? TileEntityChesticle.RenderType.UP : TileEntityChesticle.RenderType.FAT);
+                            primaryChest.setType((side == EnumFacing.DOWN || side == EnumFacing.UP) ? TileEntityChesticle.RenderType.UP : TileEntityChesticle.RenderType.FAT);
                             for(int slot = 0; slot < tempInventory.size(); slot++)
                             {
                                 primaryChest.chestContents.set(slot + slotOffset, tempInventory.get(slot));
                             }
+
+                            primaryChest.markDirty();
+                            secondaryChest.markDirty();
 
                             return;
                         }
@@ -343,4 +351,5 @@ public class BlockChesticle extends Block {
     @Override
     public boolean hasTileEntity(IBlockState state) {
         return true;
-    }}
+    }
+}

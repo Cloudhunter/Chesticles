@@ -46,7 +46,7 @@ public class ItemChesticle extends ItemBlock {
                 if (otherFacing == horizontalFacing)
                 {
                     TileEntityChest te = (TileEntityChest) worldIn.getTileEntity(sidePos);
-                    if (te.doubleChestHandler == null || te.doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE)
+                    if (te.adjacentChestXNeg == null && te.adjacentChestZNeg == null && te.adjacentChestXPos == null && te.adjacentChestZPos == null)
                     {
                         // we are valid, do some checks to make sure it isn't a case that will be handled sanely by Vanilla anyway
                         if (horizontalFacing.rotateY() == side || horizontalFacing.rotateYCCW() == side)
