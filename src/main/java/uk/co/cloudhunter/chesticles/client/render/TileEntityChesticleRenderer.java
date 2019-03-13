@@ -54,16 +54,13 @@ public class TileEntityChesticleRenderer extends TileEntitySpecialRenderer<TileE
             Block block = te.getBlockType();
             i = te.getBlockMetadata();
             facing = getWorld().getBlockState(te.getPos()).getValue(BlockChesticle.FACING);
-            //System.out.println(facing + " " + i);
 
             if (block instanceof BlockChest && i == 0) {
                 ((BlockChest) block).checkForSurroundingChests(te.getWorld(), te.getPos(), te.getWorld().getBlockState(te.getPos()));
-                i = te.getBlockMetadata();
             }
 
         } else {
             facing = EnumFacing.UP;
-            i = 0;
         }
 
         ModelChesticle modelchest = modelTallBoy;

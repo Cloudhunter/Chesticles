@@ -39,7 +39,7 @@ public abstract class ModelChesticle extends ModelChest {
             this.chestKnob.rotationPointY = 0.0F;
             this.chestKnob.rotationPointZ = 0.0F;
             this.chestBelow = (new ModelRenderer(this, 0, 19)).setTextureSize(64, 64);
-            this.chestBelow.addBox(0.0F, 0.0F, 0.0F, 14, 25, 14, 0.0F);
+            this.chestBelow.addBox(0.0F, 0.0F, 0.0F, 14, 26, 14, 0.0F);
             this.chestBelow.rotationPointX = 1.0F;
             this.chestBelow.rotationPointY = 6.0F;
             this.chestBelow.rotationPointZ = 1.0F;

@@ -184,7 +184,7 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
 
             if (this.lidAngle < 0.5F && f2 >= 0.5F)
             {
-                this.world.playSound((EntityPlayer)null, soundX, (double)y + 0.5D, soundZ, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                this.world.playSound(null, soundX, (double)y + 0.5D, soundZ, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F)
@@ -198,7 +198,7 @@ public class TileEntityChesticle extends TileEntityLockableLoot implements ITick
             //ticksSinceSync++;
             int temp = ticksSinceSync % 40;
             temp = temp >= 20 ? 20 - (temp % 20) : temp;
-            this.lidAngle = temp * 0.05F;
+            //this.lidAngle = temp * 0.05F;
         }
 
     }

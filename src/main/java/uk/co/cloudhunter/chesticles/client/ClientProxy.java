@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
     {
         ITextureObject tex = new ChesticleTexture.ChesticleTextureFat(getFatBoyTexture(), "normal");
         ITextureObject tex2 = new ChesticleTexture.ChesticleTextureTall(getTallBoyTexture(), "normal");
-        ITextureObject tex3 = new ChesticleTexture.ChesticleTextureTall(getFatBoyChristmasTexture(), "christmas");
+        ITextureObject tex3 = new ChesticleTexture.ChesticleTextureFat(getFatBoyChristmasTexture(), "christmas");
         ITextureObject tex4 = new ChesticleTexture.ChesticleTextureTall(getTallBoyChristmasTexture(), "christmas");
         try
         {

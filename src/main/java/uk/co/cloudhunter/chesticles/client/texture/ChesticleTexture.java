@@ -141,11 +141,11 @@ public abstract class ChesticleTexture extends SimpleTexture
 
                 Graphics2D g = bufferedimage.createGraphics();
 
-                copy(g, bufferedimage, 0, 40, 0, 55, 56, 3);
+                copy(g, bufferedimage, 0, 41, 0, 57, 56, 2);
 
                 copy(g, bufferedimage, 0, 36, 0, 41, 56, 5);
                 copy(g, bufferedimage, 0, 36, 0, 46, 56, 5);
-                copy(g, bufferedimage, 0, 36, 0, 51, 56, 4);
+                copy(g, bufferedimage, 0, 36, 0, 51, 56, 6);
 
                 g.dispose();
 
