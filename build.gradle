@@ -20,6 +20,8 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
+// small change to test my git working
+
 minecraft {
     version = "1.12.1-14.22.0.2446"
     runDir = "run"
